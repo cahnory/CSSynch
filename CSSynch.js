@@ -7,8 +7,8 @@
   var delay, refreshed, parameter;
 
   delay     = 2000;
-  refreshed = 0;
-  parameter = 'cssRefresh';
+  refreshed = new Date().getTime();
+  parameter = 'CSSynch';
 
   $('link[rel="stylesheet"]').each(function () {
     var uri, last, update;
@@ -23,7 +23,7 @@
     if (uri.match(/^(?:https?:)?\/\/|^(?:.(?!\:\/\/))+$/)) {
       update = function () {
         refreshed++;
-  
+
         // Create new version
         $('<link rel="stylesheet"/>')
           .insertAfter(last)
@@ -31,13 +31,13 @@
             // Remove previous version
             last.remove();
             last = $(this);
-  
+
             // program next refresh
             setTimeout(update, delay);
           })
-          .attr('href', uri.replace(/\?/, '?'+ parameter + '=' + refreshed));
+          .attr('href', uri.replace(/\?/, '?' + parameter + '=' + refreshed));
       };
-  
+
       setTimeout(update, delay);
     }
 
